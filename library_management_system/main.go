@@ -1,9 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"library_management_system/controllers"
-	"library_management_system/services"
+	library_service "library_management_system/services"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -21,9 +25,21 @@ func main() {
 		fmt.Println("7. Display Borrowed Books")
 		fmt.Println("8. Exit")
 
-		var choice int
+		reader := bufio.NewReader(os.Stdin)
+
 		fmt.Print("Enter your choice: ")
-		fmt.Scanln(&choice)
+		choiceStr, err := reader.ReadString('\n')
+
+		if err != nil {
+			fmt.Println("Invalid choice. Please try again.", "first")
+			continue
+		}
+
+		choice, err := strconv.Atoi(strings.TrimSpace(choiceStr))
+		if err != nil {
+			fmt.Println("Invalid choice. Please try again.", "second")
+			continue
+		}
 
 		switch choice {
 		case 1:
