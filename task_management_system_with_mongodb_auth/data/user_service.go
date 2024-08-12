@@ -4,6 +4,7 @@ import (
 	"api/task_manager/models"
 	"context"
 	"errors"
+	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,14 +23,11 @@ type UserServiceImpl struct {
 	ctx        context.Context
 }
 
-
 var userCurrentId uint = 1
-
 
 func NewUserService(collection *mongo.Collection, ctx context.Context) UserService {
 	return &UserServiceImpl{collection, ctx}
 }
-
 
 func (us *UserServiceImpl) Register(user models.User) (models.User, error) {
 	var existingUser models.User
@@ -56,23 +54,21 @@ func (us *UserServiceImpl) Register(user models.User) (models.User, error) {
 	return user, err
 }
 
-
-
 func (us *UserServiceImpl) Login(username, password string) (models.User, error) {
+	fmt.Printf("username is %v \n password is %v", username, password)
 	var user models.User
-	err := us.collection.FindOne(us.ctx, bson.M{"username": username}).Decode(&user)
-	if err != nil {
+
+	if err := us.collection.FindOne(us.ctx, bson.M{"username": username}).Decode(&user); err != nil {
 		return models.User{}, errors.New("user not found")
 	}
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return models.User{}, errors.New("incorrect password")
 	}
 
 	return user, nil
 }
-
 
 func (us *UserServiceImpl) PromoteUser(userID int) error {
 	filter := bson.M{"_id": userID}
@@ -81,10 +77,8 @@ func (us *UserServiceImpl) PromoteUser(userID int) error {
 	return err
 }
 
-
 func (us *UserServiceImpl) GetUserByID(id int) (models.User, error) {
 	var user models.User
 	err := us.collection.FindOne(us.ctx, bson.M{"_id": id}).Decode(&user)
 	return user, err
 }
-
