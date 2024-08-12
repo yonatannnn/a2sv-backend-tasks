@@ -16,29 +16,27 @@ type Controller struct {
 	UserUsecase *usecases.UserUsecase
 }
 
-func NewController(taskUsecase *usecases.TaskUsecase , userUsecase *usecases.UserUsecase) *Controller {
-    return &Controller{TaskUsecase: taskUsecase , UserUsecase: userUsecase}
+func NewController(taskUsecase *usecases.TaskUsecase, userUsecase *usecases.UserUsecase) *Controller {
+	return &Controller{TaskUsecase: taskUsecase, UserUsecase: userUsecase}
 }
-
 
 func (tc *Controller) CreateTask(c *gin.Context) {
 	var task domain.Task
 	if err := c.ShouldBindJSON(&task); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	err := tc.TaskUsecase.CreateTask(task)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest , gin.H{
-			"message" : "invalid task",
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid task",
 		})
 	}
 
-	c.JSON(http.StatusOK , task)
+	c.JSON(http.StatusOK, task)
 }
-
 
 func (tc *Controller) GetAllTasks(c *gin.Context) {
 	tasks, err := tc.TaskUsecase.GetAllTasks()
@@ -65,7 +63,6 @@ func (tc *Controller) GetTaskById(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, task)
 }
-
 
 func (tc *Controller) UpdateTask(c *gin.Context) {
 	var task domain.Task
@@ -98,24 +95,24 @@ func (tc *Controller) DeleteTask(c *gin.Context) {
 
 func (tc *Controller) Register(c *gin.Context) {
 	var user domain.User
-	if err := c.ShouldBindJSON(&user) ; err != nil {
-		c.JSON(http.StatusBadRequest , gin.H{
-			"message" : "invalid user",
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "invalid user",
 		})
 	}
 
-	newUser , err := tc.UserUsecase.Register(user)
+	newUser, err := tc.UserUsecase.Register(user)
+	fmt.Println("err ----- ", err)
 	if err != nil {
-		c.JSON(http.StatusBadRequest , gin.H{
-			"message" : "Username already exists",
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Username already exists",
 		})
 		return
 	}
 
-    fmt.Println(newUser)
+	fmt.Println(newUser)
 	c.JSON(http.StatusCreated, newUser)
 }
-
 
 func (tc *Controller) Login(c *gin.Context) {
 	var credentials domain.User
@@ -125,23 +122,22 @@ func (tc *Controller) Login(c *gin.Context) {
 		return
 	}
 
-	user , err := tc.UserUsecase.Login(credentials.Username , credentials.Password)
+	user, err := tc.UserUsecase.Login(credentials.Username, credentials.Password)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
 
-	token , err := Infrastructure.GenerateJWT(user)
+	token, err := Infrastructure.GenerateJWT(user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK , gin.H{
-		"token" : token,
+	c.JSON(http.StatusOK, gin.H{
+		"token": token,
 	})
 }
-
 
 func (tc *Controller) PromoteUser(c *gin.Context) {
 	id := c.Param("id")
@@ -164,8 +160,3 @@ func (tc *Controller) GetUserByID(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, user)
 }
-
-
-
-
-

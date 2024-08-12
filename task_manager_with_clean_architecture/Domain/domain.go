@@ -26,7 +26,7 @@ type TaskUsecase interface {
 type User struct {
 	ID       uint   `json:"id" bson:"_id,omitempty"`
 	Username string `json:"username" bson:"username"`
-	Password string `json:"-" bson:"password"`
+	Password string `json:"password" bson:"password"`
 	Role     string `json:"role" bson:"role"`
 }
 
