@@ -1,19 +1,37 @@
 package data
 
 import (
-    "api/task_manager/models"
+	"api/task_manager/models"
+	"fmt"
 )
 
 var currentID int
 
-func InitData() {
-    models.Tasks = []models.Task{}
-    currentID = 0
+type TaskService interface {
+    GetAllTasks() []models.Task
+    GetTaskByID(id int) (models.Task, bool)
+    AddTask(task models.Task) models.Task
+    UpdateTask(id int, updatedTask models.Task) bool
+    DeleteTask(id int) bool
+}
+
+type TaskServiceImpl struct {
+    tasks []models.Task
+}
+
+func NewTaskService() TaskService {
+    return &TaskServiceImpl{
+        tasks: []models.Task{},
+    }
 }
 
 
-func GetTaskByID(id int) (models.Task, bool) {
-    for _, task := range models.Tasks {
+func (ts *TaskServiceImpl) GetAllTasks() []models.Task {
+    return ts.tasks
+}
+
+func (ts *TaskServiceImpl) GetTaskByID(id int) (models.Task, bool) {
+    for _, task := range ts.tasks {
         if task.ID == id {
             return task, true
         }
@@ -21,29 +39,30 @@ func GetTaskByID(id int) (models.Task, bool) {
     return models.Task{}, false
 }
 
-func AddTask(task models.Task) models.Task {
+func (ts *TaskServiceImpl) AddTask(task models.Task) models.Task {
     currentID++
     task.ID = currentID
-	task.Completed = false
-    models.Tasks = append(models.Tasks, task)
-	return task
+    task.Completed = false
+    fmt.Println(task)
+    ts.tasks = append(ts.tasks, task)
+    return task
 }
 
-func UpdateTask(id int, updatedTask models.Task) bool {
-    for i, task := range models.Tasks {
+func (ts *TaskServiceImpl) UpdateTask(id int, updatedTask models.Task) bool {
+    for i, task := range ts.tasks {
         if task.ID == id {
-            models.Tasks[i] = updatedTask
-            models.Tasks[i].ID = id
+            ts.tasks[i] = updatedTask
+            ts.tasks[i].ID = id
             return true
         }
     }
     return false
 }
 
-func DeleteTask(id int) bool {
-    for i, task := range models.Tasks {
+func (ts *TaskServiceImpl) DeleteTask(id int) bool {
+    for i, task := range ts.tasks {
         if task.ID == id {
-            models.Tasks = append(models.Tasks[:i], models.Tasks[i+1:]...)
+            ts.tasks = append(ts.tasks[:i], ts.tasks[i+1:]...)
             return true
         }
     }

@@ -5,16 +5,16 @@ import (
     "api/task_manager/controllers"
 )
 
-func SetupRouter() *gin.Engine {
+func SetupRouter(ct controllers.TaskController) *gin.Engine {
     r := gin.Default()
 
     taskRoutes := r.Group("/tasks")
     {
-        taskRoutes.GET("/", controllers.GetTasks)
-        taskRoutes.GET("/:id", controllers.GetTask)
-        taskRoutes.POST("/", controllers.CreateTask)
-        taskRoutes.PUT("/:id", controllers.UpdateTask)
-        taskRoutes.DELETE("/:id", controllers.DeleteTask)
+        taskRoutes.GET("/", ct.GetTasks)
+        taskRoutes.GET("/:id", ct.GetTask)
+        taskRoutes.POST("/", ct.CreateTask)
+        taskRoutes.PUT("/:id", ct.UpdateTask)
+        taskRoutes.DELETE("/:id", ct.DeleteTask)
     }
 
     return r

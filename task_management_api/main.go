@@ -1,11 +1,13 @@
 package main
 
 import (
-    "api/task_manager/router"
+	"api/task_manager/controllers"
 	"api/task_manager/data"
+	"api/task_manager/router"
 )
 func main() {
-    data.InitData()
-    r := router.SetupRouter()
+    service := data.NewTaskService()
+    controller := controllers.NewTaskController(service)
+    r := router.SetupRouter(*controller)
 	r.Run("localhost:3000")
 }
