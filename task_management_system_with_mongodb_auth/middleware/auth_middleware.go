@@ -17,7 +17,7 @@ var jwtSecretKey = []byte(os.Getenv("SECRET_KEY"))
 func GenerateJWT(user models.User) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id":  user.ID,
-		"email": user.Email,
+		"username": user.Username,
 		"role":     user.Role,
 		"exp":      time.Now().Add(time.Hour * 24 * 3).Unix(),
 	})

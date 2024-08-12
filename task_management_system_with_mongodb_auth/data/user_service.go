@@ -33,9 +33,9 @@ func NewUserService(collection *mongo.Collection, ctx context.Context) UserServi
 
 func (us *UserServiceImpl) Register(user models.User) (models.User, error) {
 	var existingUser models.User
-	err := us.collection.FindOne(us.ctx, bson.M{"email": user.Email}).Decode(&existingUser)
+	err := us.collection.FindOne(us.ctx, bson.M{"username": user.Username}).Decode(&existingUser)
 	if err == nil {
-		return models.User{}, errors.New("Email already exists")
+		return models.User{}, errors.New("Username already exists")
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
@@ -58,9 +58,9 @@ func (us *UserServiceImpl) Register(user models.User) (models.User, error) {
 
 
 
-func (us *UserServiceImpl) Login(email, password string) (models.User, error) {
+func (us *UserServiceImpl) Login(username, password string) (models.User, error) {
 	var user models.User
-	err := us.collection.FindOne(us.ctx, bson.M{"email": email}).Decode(&user)
+	err := us.collection.FindOne(us.ctx, bson.M{"username": username}).Decode(&user)
 	if err != nil {
 		return models.User{}, errors.New("user not found")
 	}

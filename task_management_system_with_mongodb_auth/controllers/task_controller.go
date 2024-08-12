@@ -112,7 +112,7 @@ func (tc *TaskController) Login(c *gin.Context) {
 		return
 	}
 
-	user, err := tc.UserService.Login(credentials.Email, credentials.Password)
+	user, err := tc.UserService.Login(credentials.Username, credentials.Password)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
