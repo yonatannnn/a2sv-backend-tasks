@@ -35,16 +35,18 @@
 ## Example Requests
 
 ### Get all tasks
-`curl -X GET http://localhost:8080/tasks`
+`curl -X GET http://localhost:3000/tasks`
 
 ### Get a task by ID
-`curl -X GET http://localhost:8080/tasks/1`
+`curl -X GET http://localhost:3000/tasks/1`
 
 ### Create a new task
-`curl -X POST http://localhost:8080/tasks -d '{"title": "New Task", "description": "This is a new task."}' -H "Content-Type: application/json"`
+`curl -X POST http://localhost:3000/tasks -d '{"title": "New Task", "description": "This is a new task."}' -H "Content-Type: application/json"`
 
 ### Update a task
-`curl -X PUT http://localhost:8080/tasks/1 -d '{"title": "Updated Task", "description": "This is an updated task.", "completed": true}' -H "Content-Type: application/json"`
+`curl -X PUT http://localhost:3000/tasks/1 -d '{"title": "Updated Task", "description": "This is an updated task.", "completed": true}' -H "Content-Type: application/json"`
 
 ### Delete a task
-`curl -X DELETE http://localhost:8080/tasks/1`
+`curl -X DELETE http://localhost:3000/tasks/1`
+
+
