@@ -48,7 +48,6 @@ func TestCreateTask(t *testing.T) {
 	mockTaskUsecase.AssertExpectations(t)
 }
 
-// Repeat similar tests for GetAllTasks, GetTaskById, UpdateTask, DeleteTask, Register, Login, PromoteUser, and GetUserByID
 
 func TestGetAllTasks(t *testing.T) {
 	mockTaskUsecase := new(mocks.MockTaskUsecase)
