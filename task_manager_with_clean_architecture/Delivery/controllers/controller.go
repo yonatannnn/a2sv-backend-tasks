@@ -102,10 +102,9 @@ func (tc *Controller) Register(c *gin.Context) {
 	}
 
 	newUser, err := tc.UserUsecase.Register(user)
-	fmt.Println("err ----- ", err)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Username already exists",
+			"message ": err.Error(),
 		})
 		return
 	}

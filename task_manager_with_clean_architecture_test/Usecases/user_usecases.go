@@ -1,6 +1,9 @@
 package Usecases
 
-import domain "api/task_manager/Domain"
+import (
+	domain "api/task_manager/Domain"
+	"errors"
+)
 
 
 
@@ -18,6 +21,12 @@ func (uc *UserUsecase) GetUserByID(id uint) (domain.User, error) {
 }
 
 func (uc *UserUsecase) Register(user domain.User) (domain.User, error) {
+	if len(user.Username) < 6 {
+		return domain.User{} , errors.New("length of username must be greater that 5!")
+	}
+	if len(user.Password) < 6 {
+		return domain.User{} , errors.New("length of password must be greater that 5!")
+	}
 	return uc.repo.Register(user)
 }
 

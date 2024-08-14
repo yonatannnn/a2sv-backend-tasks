@@ -1,8 +1,8 @@
 package Usecases
 
 import (
-	
 	domain "api/task_manager/Domain"
+	"errors"
 )
 
 type TaskRepository interface {
@@ -22,6 +22,13 @@ func NewTaskUseCase(repo TaskRepository) *TaskUsecase {
 }
 
 func (uc *TaskUsecase) CreateTask(task domain.Task) error {
+    if task.Title == "" {
+        return errors.New("Title is required")
+    }
+
+    if task.Description == "" {
+        return errors.New("Description is required")
+    }
     return uc.repo.CreateTask(task)
 }
 

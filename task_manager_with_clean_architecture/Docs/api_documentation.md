@@ -103,3 +103,5 @@ Task Management API Documentation
     - 200 OK: User promoted successfully.
     - 404 Not Found: User not found.
 
+for the tasks https://documenter.getpostman.com/view/32072638/2sA3s4mAah
+for the user https://documenter.getpostman.com/view/32072638/2sA3s4mAjW

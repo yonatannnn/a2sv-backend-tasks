@@ -64,6 +64,12 @@ func (ts *TaskServiceImpl) GetTaskById(id int) (models.Task, error) {
 }
 
 func (ts *TaskServiceImpl) CreateTask(task models.Task) (t models.Task, er error) {
+	if task.Title == "" {
+		return task, errors.New("title is required")
+	}
+	if task.Description == "" {
+		return task, errors.New("description is required")
+	}
 	task.ID = currentId
 	currentId++
 	_, err := ts.u.InsertOne(ts.ctx, task)

@@ -30,6 +30,12 @@ func NewUserService(collection *mongo.Collection, ctx context.Context) UserServi
 }
 
 func (us *UserServiceImpl) Register(user models.User) (models.User, error) {
+	if len(user.Username) < 6 {
+		return models.User{} , errors.New("length of username must be greater that 5!")
+	}
+	if len(user.Password) < 6 {
+		return models.User{} , errors.New("length of password must be greater that 5!")
+	}
 	var existingUser models.User
 	err := us.collection.FindOne(us.ctx, bson.M{"username": user.Username}).Decode(&existingUser)
 	if err == nil {

@@ -30,7 +30,7 @@ func (tc *Controller) CreateTask(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid task",
+			"error": err.Error(),
 		})
 	}
 
@@ -109,7 +109,7 @@ func (tc *Controller) Register(c *gin.Context) {
 	newUser, err := tc.UserUsecase.Register(user)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Username already exists",
+			"error": err.Error(),
 		})
 		return
 	}
