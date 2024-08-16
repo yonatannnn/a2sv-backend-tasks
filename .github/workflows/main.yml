@@ -26,5 +26,5 @@ jobs:
 
     - name: Run unit tests
       run: |
-        cd task_manager_with_clean_architecture/tests
+        cd task_manager_with_clean_architecture/Tests
         go test ./... -v
