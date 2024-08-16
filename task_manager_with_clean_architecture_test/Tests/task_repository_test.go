@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	domain "api/task_manager/Domain"
-	repositories "api/task_manager/repository"
+	repositories "api/task_manager/Repository"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
