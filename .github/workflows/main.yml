@@ -26,5 +26,5 @@ jobs:
 
     - name: Run unit tests
       run: |
-        cd Test
+        cd Tests
         go test ./... -v
