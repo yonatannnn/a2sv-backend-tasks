@@ -15,6 +15,7 @@ func TestGetUserByID(t *testing.T) {
 	user := domain.User{
 		ID:       id,
 		Username: "testuser",
+		Password : "123456",
 		Role:     "user",
 	}
 
