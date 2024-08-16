@@ -84,7 +84,7 @@ func (suite *TaskRepositoryTestSuite) TestGetAllTasks() {
 }
 
 func (suite *TaskRepositoryTestSuite) TestGetTaskById_Positive() {
-	// instantiate an entity to be used by the function we want to test
+
 	task := domain.Task{
 		Title:       "test",
 		Description: "test",
