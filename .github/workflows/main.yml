@@ -21,10 +21,10 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd task_manager_with_clean_architecture
+        cd task_manager_with_clean_architecture_test
         go mod download
 
     - name: Run unit tests
       run: |
-        cd task_manager_with_clean_architecture/Tests
+        cd task_manager_with_clean_architecture_test/Tests
         go test ./... -v
