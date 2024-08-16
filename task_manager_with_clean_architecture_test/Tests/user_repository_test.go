@@ -2,7 +2,7 @@ package tests
 
 import (
 	domain "api/task_manager/Domain"
-	repository "api/task_manager/repository"
+	repository "api/task_manager/Repository"
 	"context"
 	"testing"
 
